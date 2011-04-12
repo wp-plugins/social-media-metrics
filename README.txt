@@ -11,10 +11,7 @@ Stable tag: trunk
 
 Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex</a> in widget.
 
-Set up accounts on Klout and PeerIndex *before* activating the plugin.  Sometimes, it takes a while
-for PeerIndex to calulate a score. If your score on the PeerIndex website is "N/A", then the plugin will
-not display any information for PeerIndex.  Because Klout info comes from an iframe and there's no API, you see what
-Klout provides.
+Set up accounts on Klout and PeerIndex *before* activating the plugin.  
 
 == Installation ==
 
@@ -25,15 +22,21 @@ Klout provides.
 
 == Frequently Asked Questions ==
 
+= I set up a PeerIndex profile, but nothing is showing =
+
+Sometimes, it takes a while for PeerIndex to calulate the first score. 
+
+If your score on the PeerIndex website is "N/A", the plugin will not display any information for PeerIndex.  
+
+= Can the Klout information displayed be changed? =
+
+Because Klout info comes from an iframe and there's no API, you see what
+Klout provides.
+
 = Can other PeerIndex items be displayed? =
 
 Yes!  Send me a note and I'll add it. Also, if you have suggestions on how to format the PI display,
 please let me know.
-
-= What about foo bar? =
-
-Answer to foo bar dilemma.
-
 
 
 == Changelog ==
