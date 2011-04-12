@@ -9,7 +9,7 @@ Stable tag: 0.4
 
 == Description ==
 
-Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex</a> in widget.
+Displays scores from <a href="http://klout.com">Klout</a> and <a href="http://peerindex.net">PeerIndex</a> in widget.
 
 Set up accounts on Klout and PeerIndex *before* activating the plugin.  
 
