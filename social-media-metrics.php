@@ -4,7 +4,7 @@ Plugin Name: Social Media Metrics
 Plugin URI: http://wordpress.org/extend/plugins/social-media-metrics/
 Description: Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex<a/> in widget.
 Author: Steven Stern
-Version: 0.3
+Version: 0.4
 Author URI: http://mywordpress.sterndata.com/
 */
 /* Relase Notes
@@ -105,7 +105,7 @@ function block_peerIndex($twitter_id) {
     if (strlen($json['peerindex'])!=0) {    
       echo "<p style=\"text-align:center;\">";
       echo "<a href='".$json['url']."'><img src='http://a0.twimg.com/profile_images/1162568983/peerindex_bigger-1_bigger.png'	border=0 width=73 height=73 align=center style=\"margin:5px;border:none;\"></a>\n";
-      echo  "<br>",$json['name'],"'s (<a href='http://twitter.com/".$json['twitter'],"'>",$json['slug'],"</a>) <a href='http://peerindex.net/".$json['slug']."'><b>PeerIndex</b></a> is ";
+      echo  "<br>",$json['name'],"'s (<a href='http://twitter.com/".$json['twitter'],"'>@",$json['slug'],"</a>) <a href='http://peerindex.net/".$json['slug']."'><b>PeerIndex</b></a> is ";
       echo "<b>",$json['peerindex'],"</b><br>\n";    
       echo "</p>\n";
       return true;
