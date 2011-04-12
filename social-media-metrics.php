@@ -4,15 +4,9 @@ Plugin Name: Social Media Metrics
 Plugin URI: http://wordpress.org/extend/plugins/social-media-metrics/
 Description: Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex<a/> in widget.
 Author: Steven Stern
-Version: 0.4
+Version: 0.5
 Author URI: http://mywordpress.sterndata.com/
 */
-/* Relase Notes
-  
-   0.3  Test for null return from peerindex and don't display anything if there's nothing to display.
-        added 10 pixels after the title before opening the Klout iframe 
-*/   
-
 /*  Copyright 2011 Steven D. Stern  (email : steve@sterndata.com)
 
     This program is free software; you can redistribute it and/or modify
