@@ -9,7 +9,7 @@ Stable tag: trunk
 
 == Description ==
 
-Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex<a/> in widget.
+Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex</a> in widget.
 
 Set up accounts on Klout and PeerIndex *before* activating the plugin.  Sometimes, it takes a while
 for PeerIndex to calulate a score. If your score on the PeerIndex website is "N/A", then the plugin will
