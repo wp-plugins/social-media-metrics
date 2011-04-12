@@ -4,15 +4,9 @@ Plugin Name: Social Media Metrics
 Plugin URI: http://wordpress.org/extend/plugins/social-media-metrics/
 Description: Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex<a/> in widget.
 Author: Steven Stern
-Version: 0.4
+Version: 0.7
 Author URI: http://mywordpress.sterndata.com/
 */
-/* Relase Notes
-  
-   0.3  Test for null return from peerindex and don't display anything if there's nothing to display.
-        added 10 pixels after the title before opening the Klout iframe 
-*/   
-
 /*  Copyright 2011 Steven D. Stern  (email : steve@sterndata.com)
 
     This program is free software; you can redistribute it and/or modify
@@ -103,11 +97,18 @@ function block_peerIndex($twitter_id) {
     	}
 
     if (strlen($json['peerindex'])!=0) {    
-      echo "<p style=\"text-align:center;\">";
-      echo "<a href='".$json['url']."'><img src='http://a0.twimg.com/profile_images/1162568983/peerindex_bigger-1_bigger.png'	border=0 width=73 height=73 align=center style=\"margin:5px;border:none;\"></a>\n";
-      echo  "<br>",$json['name'],"'s (<a href='http://twitter.com/".$json['twitter'],"'>@",$json['slug'],"</a>) <a href='http://peerindex.net/".$json['slug']."'><b>PeerIndex</b></a> is ";
-      echo "<b>",$json['peerindex'],"</b><br>\n";    
-      echo "</p>\n";
+      echo "<div style=\"text-align:center;\">";
+      echo  "<br>",$json['name'],"'s (<a href='http://twitter.com/".$json['twitter'],"'>@",$json['slug'],"</a>) <a href='http://peerindex.net/".$json['slug']."'><b>PeerIndex</b></a> is";
+      echo '<div style="margin:0px auto;;background-image:  url(http://a0.twimg.com/profile_images/1162568983/peerindex_bigger-1_bigger.png); background-repeat: no-repeat;height: 73px; width: 73px;"><div style="font-color:#000000;font-size:150%;position: relative; height: auto; width: auto; top: 20px;" >';
+      echo "\n";
+      echo "<b>",$json['peerindex'],"</b>\n";
+      echo "</div></div>\n";
+      echo "</div>\n";
+ //     
+ //     echo "<a href='".$json['url']."'><img src='http://a0.twimg.com/profile_images/1162568983/peerindex_bigger-1_bigger.png'	border=0 width=73 height=73 align=center style=\"margin:5px;border:none;\"></a>\n";
+ //     echo  "<br>",$json['name'],"'s (<a href='http://twitter.com/".$json['twitter'],"'>@",$json['slug'],"</a>) <a href='http://peerindex.net/".$json['slug']."'><b>PeerIndex</b></a> is ";
+ //     echo "<b>",$json['peerindex'],"</b><br>\n";    
+ //     echo "</p>\n";
       return true;
     }
 }
