@@ -43,9 +43,9 @@ please let me know.
 
 == Changelog ==
 = 0.8 =
-Added a define to allow current version number to be displayed in a comment
-Supply PeerIndex logo as part of plugin - removes dependency it not changing on PI site
-Add option to override theme color for PeerIndex number
+* Added a define to allow current version number to be displayed in a comment
+* Supply PeerIndex logo as part of plugin - removes dependency it not changing on PI site
+* Add option to override theme color for PeerIndex number.  Defaults to blank. If blank or an invalid code is supplied, the theme's color applies
 
 = 0.7 =
 Unlinked PeerIndex score number.  The color got all messed up because the styles for links
