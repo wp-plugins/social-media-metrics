@@ -3,7 +3,7 @@ Contributors: steve@sterndata.com
 Tags: Twitter, PeerIndex, Klout, Metrics, Statistics, Stats
 Requires at least: 2.8
 Tested up to: 3.1.1
-Stable tag: 0.4
+Stable tag: 0.9
 
  Displays scores from Klout and PeerIndex in widget.
 
@@ -38,8 +38,31 @@ Klout provides.
 Yes!  Send me a note and I'll add it. Also, if you have suggestions on how to format the PI display,
 please let me know.
 
+== Screenshots ==
+1.  This is the plugin with the title set to "Social Metrics".
 
 == Changelog ==
+
+= 1.0 =
+If PeerIndex API is not available, fail gracefully
+
+= 0.9 =
+Corrected README for .08 to match what the code does.
+
+= 0.8 =
+* Added a define to allow current version number to be displayed in a comment
+* Supply PeerIndex logo as part of plugin
+* Add option to override theme color for PeerIndex number.  Defaults to blank. If blank or an invalid code is supplied, the theme's color applies
+
+= 0.7 =
+Unlinked PeerIndex score number.  The color got all messed up because the styles for links
+got in the way.
+
+= 0.6 =
+Put PeerIndex score on top of PeerIndex logo
+
+= 0.5 =
+Removed unnecessary comments from code - no other changes
 
 = 0.4 =
 Added @ indicate a twitter ID in the PeerIndex link
