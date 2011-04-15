@@ -4,11 +4,11 @@ Plugin Name: Social Media Metrics
 Plugin URI: http://wordpress.org/extend/plugins/social-media-metrics/
 Description: Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex<a/> in widget.
 Author: Steven Stern
-Version: 0.9
+Version: 1.0
 Author URI: http://mywordpress.sterndata.com/
 */
 
-define ("SMM_VERSION","0.9");
+define ("SMM_VERSION","1.0");
 
 /*  Copyright 2011 Steven D. Stern  (email : steve@sterndata.com)
 
@@ -108,28 +108,29 @@ function block_peerIndex($twitter_id,$instance) {
     $url = "http://api.peerindex.net/1/profile/show.json?id=".$twitter_id."&api_key=1f38f3ddfd21f6936e1449c703eebd62";
 
     $str = file_get_contents($url);
-    $json = json_decode (  $str, true );
-    if (isset($json['error'])) {
+    if ($str) {
+      $json = json_decode (  $str, true );
+      if (isset($json['error'])) {
     	  echo "PeerIndex APA Error: " ,$json['error'];
     	  return false;
-    	}
+    	  }
 
-    if (strlen($json['peerindex'])!=0) {    
-      echo "<div style=\"text-align:center;\">";
-      echo  "<br>",$json['name'],"'s (<a href='http://twitter.com/".$json['twitter'],"'>@",$json['slug'],"</a>) <a href='http://peerindex.net/".$json['slug']."'><b>PeerIndex</b></a> is";
-      echo '<div style="margin:0px auto;;background-image:  url('.$plugin_dir.'pi.png); background-repeat: no-repeat;height: 73px; width: 73px;">';
-      echo '<div style="';
-      if ($pi_color != "") echo 'color:'.$pi_color.';'; 
-      echo 'font-size:150%;position: relative; height: auto; width: auto; top: 20px;" >';
-      echo "\n";
-      echo "<b>",$json['peerindex'],"</b>\n";
-      echo "</div></div>\n";
-      echo "</div>\n";
- //     
- //     echo "<a href='".$json['url']."'><img src='http://a0.twimg.com/profile_images/1162568983/peerindex_bigger-1_bigger.png'	border=0 width=73 height=73 align=center style=\"margin:5px;border:none;\"></a>\n";
- //     echo  "<br>",$json['name'],"'s (<a href='http://twitter.com/".$json['twitter'],"'>@",$json['slug'],"</a>) <a href='http://peerindex.net/".$json['slug']."'><b>PeerIndex</b></a> is ";
- //     echo "<b>",$json['peerindex'],"</b><br>\n";    
- //     echo "</p>\n";
-      return true;
+      if (strlen($json['peerindex'])!=0) {    
+        echo "<div style=\"text-align:center;\">";
+        echo  "<br>",$json['name'],"'s (<a href='http://twitter.com/".$json['twitter'],"'>@",$json['slug'],"</a>) <a href='http://peerindex.net/".$json['slug']."'><b>PeerIndex</b></a> is";
+        echo '<div style="margin:0px auto;;background-image:  url('.$plugin_dir.'pi.png); background-repeat: no-repeat;height: 73px; width: 73px;">';
+        echo '<div style="';
+        if ($pi_color != "") echo 'color:'.$pi_color.';'; 
+        echo 'font-size:150%;position: relative; height: auto; width: auto; top: 20px;" >';
+        echo "\n";
+        echo "<b>",$json['peerindex'],"</b>\n";
+        echo "</div></div>\n";
+        echo "</div>\n";
+       return true;
     }
-}
+  } 
+  else {
+    // failed to contact PeerIndex -- do nothing
+       return false;
+     }
+} 

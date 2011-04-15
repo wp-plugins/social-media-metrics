@@ -43,6 +43,9 @@ please let me know.
 
 == Changelog ==
 
+= 1.0 =
+If PeerIndex API is not available, fail gracefully
+
 = 0.9 =
 Corrected README for .08 to match what the code does.
 
