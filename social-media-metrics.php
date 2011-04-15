@@ -4,11 +4,11 @@ Plugin Name: Social Media Metrics
 Plugin URI: http://wordpress.org/extend/plugins/social-media-metrics/
 Description: Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex<a/> in widget.
 Author: Steven Stern
-Version: 1.0
+Version: 1.1
 Author URI: http://mywordpress.sterndata.com/
 */
 
-define ("SMM_VERSION","1.0");
+define ("SMM_VERSION","1.1");
 
 /*  Copyright 2011 Steven D. Stern  (email : steve@sterndata.com)
 
@@ -54,6 +54,7 @@ class SocialMediaMetrics extends WP_Widget {
 			$instance = $old_instance;
 			$instance['title'] = strip_tags($new_instance['title']);
 			$instance['twitter_id'] = strip_tags($new_instance['twitter_id']);
+			$instance['my_name'] = strip_tags($new_instance['my_name']);
 			$instance['pi_color'] = strip_tags($new_instance['pi_color']);
       return $instance;
     }
@@ -62,6 +63,7 @@ class SocialMediaMetrics extends WP_Widget {
     function form($instance) {				
         $title = esc_attr($instance['title']);
         $twitter_id=esc_attr($instance['twitter_id']);
+        $my_name=esc_attr($instance['my_name']);
         $pi_color=esc_attr($instance['pi_color']);
         ?>
          <p>
@@ -72,11 +74,15 @@ class SocialMediaMetrics extends WP_Widget {
           <label for="<?php echo $this->get_field_id('twitter_id'); ?>"><?php _e('Twitter ID:'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('twitter_id'); ?>" name="<?php echo $this->get_field_name('twitter_id'); ?>" type="text" value="<?php echo $twitter_id; ?>" />
           <br><i>Enter a Twitter ID without the "@"</i></p>
+       	<p>
+          <label for="<?php echo $this->get_field_id('my_name'); ?>"><?php _e('Name Override:'); ?></label> 
+          <input class="widefat" id="<?php echo $this->get_field_id('my_name'); ?>" name="<?php echo $this->get_field_name('my_name'); ?>" type="text" value="<?php echo $my_name; ?>" />
+          <br><i>Use this instead of my name as supplied by PeerIndex (optional)</i></p>
         <p>  
            <label for="<?php echo $this->get_field_id('pi_color'); ?>"><?php _e('PeerIndex Number Color:'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('pi_color'); ?>" name="<?php echo $this->get_field_name('pi_color'); ?>" type="text" value="<?php echo $pi_color; ?>" />
           <br><i>Enter an HTML color code here to override the theme color when displaying the PeerIndex number.<br>
-          Must be of the form #nnnnnn.</i></p>
+          Must be of the form #nnnnnn. (Optional)</i></p>
         <p>  
         <b>Note:</b> Your scores will be more accurately reported in you have created a profile on <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">Peerindex</a>.
         </p>
@@ -100,6 +106,10 @@ function block_peerIndex($twitter_id,$instance) {
     $pi_color = apply_filters('pi_color', $instance['pi_color']);
     if(!preg_match('/^#[a-f0-9]{6}$/i', $pi_color)) $pi_color="";
     
+    // is there a name override?
+    $my_name = trim(apply_filters('my_name', $instance['my_name']));
+
+        
     // Klout score
     echo '<p align="center" style="margin-top: 10px;">';
     echo '<iframe allowtransparency="true" frameborder="0" height="59px" scrolling="no" src="http://widgets.klout.com/badge/'.$twitter_id.'?size=s" style="border:0;" width="120"></iframe></p>'."\n";
@@ -117,7 +127,14 @@ function block_peerIndex($twitter_id,$instance) {
 
       if (strlen($json['peerindex'])!=0) {    
         echo "<div style=\"text-align:center;\">";
-        echo  "<br>",$json['name'],"'s (<a href='http://twitter.com/".$json['twitter'],"'>@",$json['slug'],"</a>) <a href='http://peerindex.net/".$json['slug']."'><b>PeerIndex</b></a> is";
+        echo  "<br>";
+        if (strlen($my_name != "")) { 
+           echo $my_name;
+           }
+          else {
+           echo $json['name'];
+           }
+        echo "'s (<a href='http://twitter.com/".$json['twitter'],"'>@",$json['slug'],"</a>) <a href='http://peerindex.net/".$json['slug']."'><b>PeerIndex</b></a> is";
         echo '<div style="margin:0px auto;;background-image:  url('.$plugin_dir.'pi.png); background-repeat: no-repeat;height: 73px; width: 73px;">';
         echo '<div style="';
         if ($pi_color != "") echo 'color:'.$pi_color.';'; 
