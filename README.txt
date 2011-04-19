@@ -3,7 +3,7 @@ Contributors: steve@sterndata.com
 Tags: Twitter, PeerIndex, Klout, Metrics, Statistics, Stats
 Requires at least: 2.8
 Tested up to: 3.1.1
-Stable tag: 1.1
+Stable tag: 1.2
 
  Displays scores from Klout and PeerIndex in widget.
 
@@ -42,6 +42,9 @@ please let me know.
 1.  This is the plugin with the title set to "Social Metrics".
 
 == Changelog ==
+
+= 1.2 =
+Fail even more gracefully if PeerIndex is unavailable.
 
 = 1.1 =
 Override the full name supplied by PeerIndex if you'd rather use that. For example, my feed uses "Steven Stern", but I'd like it to use "Steve" here, to be consistent with my name on my blog.
