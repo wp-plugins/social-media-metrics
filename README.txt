@@ -42,6 +42,9 @@ please let me know.
 1.  This is the plugin with the title set to "Social Metrics".
 
 == Changelog ==
+= 1.3 =
+minor spelling error in error message (APA instead of API)
+If over the limit on PI calls, display a link to the PI profile
 
 = 1.2 =
 Fail even more gracefully if PeerIndex is unavailable.

@@ -4,11 +4,11 @@ Plugin Name: Social Media Metrics
 Plugin URI: http://wordpress.org/extend/plugins/social-media-metrics/
 Description: Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex<a/> in widget.
 Author: Steven Stern
-Version: 1.2
+Version: 1.3
 Author URI: http://mywordpress.sterndata.com/
 */
 
-define ("SMM_VERSION","1.2");
+define ("SMM_VERSION","1.3");
 
 /*  Copyright 2011 Steven D. Stern  (email : steve@sterndata.com)
 
@@ -121,7 +121,8 @@ function block_peerIndex($twitter_id,$instance) {
     if ($str) {
       $json = json_decode (  $str, true );
       if (isset($json['error'])) {
-    	  echo "PeerIndex APA Error: " ,$json['error'];
+    	  echo "PeerIndex API Error: " ,$json['error'].".\n";
+    	  echo "<br>Visit my <a href='http://peerindex.net/".$twitter_id."'>PeerIndex profile</a>";
     	  return false;
     	  }
 
@@ -148,6 +149,7 @@ function block_peerIndex($twitter_id,$instance) {
   } 
   else {
     // failed to contact PeerIndex -- do nothing
+       echo "<!-- PeerIndex error: ".$str." -->\n";
        return false;
      }
 } 
