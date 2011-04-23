@@ -4,11 +4,11 @@ Plugin Name: Social Media Metrics
 Plugin URI: http://wordpress.org/extend/plugins/social-media-metrics/
 Description: Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex<a/> in widget.
 Author: Steven Stern
-Version: 1.3
+Version: 1.4
 Author URI: http://mywordpress.sterndata.com/
 */
 
-define ("SMM_VERSION","1.3");
+define ("SMM_VERSION","1.4");
 
 /*  Copyright 2011 Steven D. Stern  (email : steve@sterndata.com)
 
@@ -56,6 +56,8 @@ class SocialMediaMetrics extends WP_Widget {
 			$instance['twitter_id'] = strip_tags($new_instance['twitter_id']);
 			$instance['my_name'] = strip_tags($new_instance['my_name']);
 			$instance['pi_color'] = strip_tags($new_instance['pi_color']);
+			$instance['pi_yes'] = ( isset( $new_instance['pi_yes'] ) ? 1 : 0 ); 
+			$instance['klout_yes'] = ( isset( $new_instance['klout_yes'] ) ? 1 : 0 ); 
       return $instance;
     }
 
@@ -65,6 +67,11 @@ class SocialMediaMetrics extends WP_Widget {
         $twitter_id=esc_attr($instance['twitter_id']);
         $my_name=esc_attr($instance['my_name']);
         $pi_color=esc_attr($instance['pi_color']);
+        
+        // set default values for the checkboxes
+        if (!isset($instance['pi_yes'])) $instance['pi_yes'] = true;
+        if (!isset($instance['klout_yes'])) $instance['klout_yes'] = true;
+        
         ?>
          <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> 
@@ -75,7 +82,13 @@ class SocialMediaMetrics extends WP_Widget {
           <input class="widefat" id="<?php echo $this->get_field_id('twitter_id'); ?>" name="<?php echo $this->get_field_name('twitter_id'); ?>" type="text" value="<?php echo $twitter_id; ?>" />
           <br><i>Enter a Twitter ID without the "@"</i></p>
        	<p>
-          <label for="<?php echo $this->get_field_id('my_name'); ?>"><?php _e('Name Override:'); ?></label> 
+       		<label for="<?php echo $this->get_field_id( 'pi_yes' ); ?>">Display PeerIndex?</label>
+       	  <input class="checkbox" type="checkbox" <?php checked( $instance['pi_yes'], true ); ?> id="<?php echo $this->get_field_id( 'pi_yes' ); ?>" name="<?php echo $this->get_field_name( 'pi_yes' ); ?>" /></p>
+       	<p>
+       		<label for="<?php echo $this->get_field_id( 'klout_yes' ); ?>">Display Klout?</label>
+       	  <input class="checkbox" type="checkbox" <?php checked( $instance['klout_yes'], true ); ?> id="<?php echo $this->get_field_id( 'klout_yes' ); ?>" name="<?php echo $this->get_field_name( 'klout_yes' ); ?>" /></p>
+        <p>  
+	        <label for="<?php echo $this->get_field_id('my_name'); ?>"><?php _e('Name Override:'); ?></label> 
           <input class="widefat" id="<?php echo $this->get_field_id('my_name'); ?>" name="<?php echo $this->get_field_name('my_name'); ?>" type="text" value="<?php echo $my_name; ?>" />
           <br><i>Use this instead of my name as supplied by PeerIndex (optional)</i></p>
         <p>  
@@ -100,6 +113,7 @@ function block_peerIndex($twitter_id,$instance) {
     
     // just a bit of debugging code
     echo "<!-- Plugin Version: ".SMM_VERSION." -->";
+    
     $plugin_dir = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
     
     // process PeerIndex color.
@@ -109,47 +123,50 @@ function block_peerIndex($twitter_id,$instance) {
     // is there a name override?
     $my_name = trim(apply_filters('my_name', $instance['my_name']));
 
-        
-    // Klout score
-    echo '<p align="center" style="margin-top: 10px;">';
-    echo '<iframe allowtransparency="true" frameborder="0" height="59px" scrolling="no" src="http://widgets.klout.com/badge/'.$twitter_id.'?size=s" style="border:0;" width="120"></iframe></p>'."\n";
+    if ($instance['klout_yes']) { 
+      // Klout score
+      echo '<p align="center" style="margin-top: 10px;">';
+      echo '<iframe allowtransparency="true" frameborder="0" height="59px" scrolling="no" src="http://widgets.klout.com/badge/'.$twitter_id.'?size=s" style="border:0;" width="120"></iframe></p>'."\n";
+      }
     
-    // PeerIndex score
-    $url = "http://api.peerindex.net/1/profile/show.json?id=".$twitter_id."&api_key=1f38f3ddfd21f6936e1449c703eebd62";
+    if ($instance['pi_yes']) { 
+      // PeerIndex score
+      $url = "http://api.peerindex.net/1/profile/show.json?id=".$twitter_id."&api_key=1f38f3ddfd21f6936e1449c703eebd62";
 
-    $str = @file_get_contents($url);
-    if ($str) {
-      $json = json_decode (  $str, true );
-      if (isset($json['error'])) {
-    	  echo "PeerIndex API Error: " ,$json['error'].".\n";
-    	  echo "<br>Visit my <a href='http://peerindex.net/".$twitter_id."'>PeerIndex profile</a>";
-    	  return false;
-    	  }
+      $str = @file_get_contents($url);
+      if ($str) {
+        $json = json_decode (  $str, true );
+        if (isset($json['error'])) {
+    	    echo "PeerIndex API Error: " ,$json['error'].".\n";
+    	    echo "<br>Visit my <a href='http://peerindex.net/".$twitter_id."'>PeerIndex profile</a>";
+    	    return false;
+    	    }
 
-      if (strlen($json['peerindex'])!=0) {    
-        echo "<div style=\"text-align:center;\">";
-        echo  "<br>";
-        if (strlen($my_name != "")) { 
-           echo $my_name;
-           }
-          else {
-           echo $json['name'];
-           }
-        echo "'s (<a href='http://twitter.com/".$json['twitter'],"'>@",$json['slug'],"</a>) <a href='http://peerindex.net/".$json['slug']."'><b>PeerIndex</b></a> is";
-        echo '<div style="margin:0px auto;;background-image:  url('.$plugin_dir.'pi.png); background-repeat: no-repeat;height: 73px; width: 73px;">';
-        echo '<div style="';
-        if ($pi_color != "") echo 'color:'.$pi_color.';'; 
-        echo 'font-size:150%;position: relative; height: auto; width: auto; top: 20px;" >';
-        echo "\n";
-        echo "<b>",$json['peerindex'],"</b>\n";
-        echo "</div></div>\n";
-        echo "</div>\n";
-       return true;
+        if (strlen($json['peerindex'])!=0) {    
+          echo "<div style=\"text-align:center;\">";
+          echo  "<br>";
+          if (strlen($my_name != "")) { 
+             echo $my_name;
+             }
+            else {
+             echo $json['name'];
+             }
+          echo "'s (<a href='http://twitter.com/".$json['twitter'],"'>@",$json['slug'],"</a>) <a href='http://peerindex.net/".$json['slug']."'><b>PeerIndex</b></a> is";
+          echo '<div style="margin:0px auto;;background-image:  url('.$plugin_dir.'pi.png); background-repeat: no-repeat;height: 73px; width: 73px;">';
+          echo '<div style="';
+          if ($pi_color != "") echo 'color:'.$pi_color.';'; 
+          echo 'font-size:150%;position: relative; height: auto; width: auto; top: 20px;" >';
+          echo "\n";
+          echo "<b>",$json['peerindex'],"</b>\n";
+          echo "</div></div>\n";
+          echo "</div>\n";
+         return true;
+        }
+    } 
+    else {
+      // failed to contact PeerIndex -- do nothing
+         echo "<!-- PeerIndex error: ".$str." -->\n";
+         return false;
+       }
     }
-  } 
-  else {
-    // failed to contact PeerIndex -- do nothing
-       echo "<!-- PeerIndex error: ".$str." -->\n";
-       return false;
-     }
-} 
+  }

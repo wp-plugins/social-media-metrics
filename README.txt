@@ -3,7 +3,7 @@ Contributors: steve@sterndata.com
 Tags: Twitter, PeerIndex, Klout, Metrics, Statistics, Stats
 Requires at least: 2.8
 Tested up to: 3.1.1
-Stable tag: 1.3
+Stable tag: 1.4
 
  Displays scores from Klout and PeerIndex in widget.
 
@@ -42,9 +42,13 @@ please let me know.
 1.  This is the plugin with the title set to "Social Metrics".
 
 == Changelog ==
+= 1.4 =
+* add option to display or not display Klout and PeerIndex scores. 
+* default both to be displayed
+
 = 1.3 =
-minor spelling error in error message (APA instead of API)
-If over the limit on PI calls, display a link to the PI profile
+* minor spelling error in error message (APA instead of API)
+* If over the limit on PI calls, display a link to the PI profile
 
 = 1.2 =
 Fail even more gracefully if PeerIndex is unavailable.
