@@ -2,10 +2,10 @@
 Contributors: steve@sterndata.com
 Tags: Twitter, PeerIndex, Klout, Metrics, Statistics, Stats
 Requires at least: 2.8
-Tested up to: 3.1.1
+Tested up to: 3.1.2
 Stable tag: 1.4
 
- Displays scores from Klout and PeerIndex in widget.
+ Displays scores from Klout and PeerIndex in a widget.
 
 == Description ==
 
