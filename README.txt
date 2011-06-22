@@ -5,13 +5,15 @@ Requires at least: 2.8
 Tested up to: 3.1.2
 Stable tag: 1.4
 
- Displays scores from Klout and PeerIndex in widget.
+ Displays scores from Klout and PeerIndex in a widget.
 
 == Description ==
 
 Displays scores from <a href="http://klout.com">Klout</a> and <a href="http://peerindex.net">PeerIndex</a> in widget.
 
-Set up accounts on Klout and PeerIndex *before* activating the plugin.  
+Set up accounts on Klout and PeerIndex *before* activating the plugin. 
+
+Follow me on Twitter <a href="http://twitter.com/sds52">@sds52</a>. 
 
 == Installation ==
 
