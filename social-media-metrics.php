@@ -4,11 +4,11 @@ Plugin Name: Social Media Metrics
 Plugin URI: http://wordpress.org/extend/plugins/social-media-metrics/
 Description: Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex<a/> in widget.
 Author: Steven Stern
-Version: 1.7
+Version: 1.8
 Author URI: http://mywordpress.sterndata.com/
 */
 
-define ("SMM_VERSION","1.7");
+define ("SMM_VERSION","1.8");
 
 /*  Copyright 2011 Steven D. Stern  (email : steve@sterndata.com)
 
@@ -58,7 +58,7 @@ class SocialMediaMetrics extends WP_Widget {
 			$instance['pi_color'] = strip_tags($new_instance['pi_color']);
 			$instance['pi_yes'] = ( isset( $new_instance['pi_yes'] ) ? 1 : 0 );
 			$instance['klout_yes'] = ( isset( $new_instance['klout_yes'] ) ? 1 : 0 );
-      return $instance;
+			return $instance;
     }
 
     /** @see WP_Widget::form */
@@ -125,11 +125,42 @@ function block_peerIndex($twitter_id,$instance) {
 
     if ($instance['klout_yes']) {
       // Klout score
+
+      // check if there's a cached value
+      $use_cache=false;
+      $cache_ts_name="smm_klout_".$twitter_id."_ts";
+      $cache_str_name="smm_klout_".$twitter_id."_str";
+      $klout_cache_ts = get_option($cache_ts_name);
+      if ($klout_cache_ts) {
+         // is the timesmap less than 12 hours?
+         $time_diff=time()- $klout_cache_ts;
+         if ($time_diff < 43200) $use_cache=true;
+         }
+        else {
+       	 $deprecated = ' ';
+         $autoload = 'no';
+         add_option( $cache_ts_name, 0, $deprecated, $autoload );
+         add_option( $cache_str_name,"",$deprecated, $autoload  );
+         }
       echo '<div style="margin-top: 10px;text-align:center;">';
-      $url="http://api.klout.com/1/klout.json?key=yghgxyh283cx9tmqk3gnsd68&users=".$twitter_id;
-      $str = @file_get_contents($url);
-      $json = json_decode (  $str, true );
+      if ($use_cache) {
+      	$str=stripslashes(get_option($cache_str_name));
+      	$json = json_decode (  $str, true );
+        }
+       else {
+       	$url="http://api.klout.com/1/klout.json?key=p7xvaapf9k764gbqdfx69dcx&users=".$twitter_id;
+        $str = @file_get_contents($url);
+        $json = json_decode (  $str, true );
+        }
+
       if ($json['status'] == '200') {
+
+        // cache the current scores if fetched
+        if (!$use_cache) {
+        	 update_option($cache_ts_name,time());
+           update_option($cache_str_name,addslashes($str));
+           }
+
         echo "<a href=\"http://twitter.com".$twitter_id."\">";
         if (strlen($my_name != "")) {
              echo $my_name;
@@ -145,7 +176,12 @@ function block_peerIndex($twitter_id,$instance) {
         echo "</div></div>\n";
         }
        else {
-       	echo "Klout API Error ".$json['status'].":";
+       	echo "**Klout API Error ";
+       	echo "<!--\n";
+      	echo "<br>Use Cache Value: ".$use_cache;
+       	echo $str,"\n";
+       	print_r($json);
+       	echo "-->\n";
        	echo "<br>Visit my <a href='http://klout.com/#/".$twitter_id."'>Klout profile</a>";
       }
     }
