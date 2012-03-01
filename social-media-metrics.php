@@ -4,11 +4,11 @@ Plugin Name: Social Media Metrics
 Plugin URI: http://wordpress.org/extend/plugins/social-media-metrics/
 Description: Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex<a/> in widget.
 Author: Steven Stern
-Version: 1.5
+Version: 1.7
 Author URI: http://mywordpress.sterndata.com/
 */
 
-define ("SMM_VERSION","1.5");
+define ("SMM_VERSION","1.7");
 
 /*  Copyright 2011 Steven D. Stern  (email : steve@sterndata.com)
 
@@ -129,21 +129,26 @@ function block_peerIndex($twitter_id,$instance) {
       $url="http://api.klout.com/1/klout.json?key=yghgxyh283cx9tmqk3gnsd68&users=".$twitter_id;
       $str = @file_get_contents($url);
       $json = json_decode (  $str, true );
-      echo "<a href=\"http://klout.com/#/".$twitter_id."\">";
-      if (strlen($my_name != "")) {
+      if ($json['status'] == '200') {
+        echo "<a href=\"http://twitter.com".$twitter_id."\">";
+        if (strlen($my_name != "")) {
              echo $my_name;
              }
             else {
-             echo $json['name'];
+             echo $twitter_id;
              }
-      echo " has a Klout score of </a>";
-      // echo "<pre>";print_r($json);echo "</pre>";
-      echo '<div style="margin:0px auto;;background-image:  url('.$plugin_dir.'klout.png); background-repeat: no-repeat;height: 67px; width: 75px;">';
-          echo '<div style="color:#000;font-size:150%;position: relative; height: auto; width: auto; top: 20px; padding-left:8px;" >';
-          echo "\n";
-          echo "<b>",$json['users'][0]['kscore'],"</b>\n";
-          echo "</div></div>\n";
+        echo "</a> has a <a href=\"http://klout.com/#/".$twitter_id."\">"."<b>Klout</b></a> score of";
+        echo '<div style="margin:2px auto;;background-image:  url('.$plugin_dir.'klout.png); background-repeat: no-repeat;height: 67px; width: 75px;">';
+        echo '<div style="color:#000;font-size:120%;position: relative; height: auto; width: auto; top: 20px; padding-left:8px;" >';
+        echo "\n";
+        echo "<b>",$json['users'][0]['kscore'],"</b>\n";
+        echo "</div></div>\n";
+        }
+       else {
+       	echo "Klout API Error ".$json['status'].":";
+       	echo "<br>Visit my <a href='http://klout.com/#/".$twitter_id."'>Klout profile</a>";
       }
+    }
 
     if ($instance['pi_yes']) {
       // PeerIndex score
