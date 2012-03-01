@@ -159,6 +159,7 @@ function block_peerIndex($twitter_id,$instance) {
         if (!$use_cache) {
         	 update_option($cache_ts_name,time());
            update_option($cache_str_name,addslashes($str));
+           echo "\n<!-- using cache -->\n";
            }
 
         echo "<a href=\"http://twitter.com".$twitter_id."\">";
