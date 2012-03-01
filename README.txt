@@ -2,8 +2,8 @@
 Contributors: steve@sterndata.com
 Tags: Twitter, PeerIndex, Klout, Metrics, Statistics, Stats
 Requires at least: 2.8
-Tested up to: 3.2
-Stable tag: 1.4
+Tested up to: 3.3.1
+Stable tag: 1.5
 
  Displays scores from Klout and PeerIndex in a widget.
 
@@ -11,29 +11,28 @@ Stable tag: 1.4
 
 Displays scores from <a href="http://klout.com">Klout</a> and <a href="http://peerindex.net">PeerIndex</a> in widget.
 
-Set up accounts on Klout and PeerIndex *before* activating the plugin. 
+Set up accounts on Klout and PeerIndex *before* activating the plugin.
 
-Follow me on Twitter <a href="http://twitter.com/sds52">@sds52</a>. 
+Follow me on Twitter <a href="http://twitter.com/sds52">@sds52</a>.
 
 == Installation ==
 
 1. Upload the files (social-media-metrics.php, README.TXT) to the `/wp-content/plugins/social-media-metrics` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. From APPEARANCE -> WIDGETS, drag the widget to an appropriate location. Enter your twitter ID 
+3. From APPEARANCE -> WIDGETS, drag the widget to an appropriate location. Enter your twitter ID
    without the "@", and optionally a title for the widget to display.
 
 == Frequently Asked Questions ==
 
 = I set up a PeerIndex profile, but nothing is showing =
 
-Sometimes, it takes a while for PeerIndex to calulate the first score. 
+Sometimes, it takes a while for PeerIndex to calulate the first score.
 
-If your score on the PeerIndex website is "N/A", the plugin will not display any information for PeerIndex.  
+If your score on the PeerIndex website is "N/A", the plugin will not display any information for PeerIndex.
 
 = Can the Klout information displayed be changed? =
 
-Because Klout info comes from an iframe and there's no API, you see what
-Klout provides.
+Yes, in a later version. This is the first version using the new Klout API.
 
 = Can other PeerIndex items be displayed? =
 
@@ -44,8 +43,11 @@ please let me know.
 1.  This is the plugin with the title set to "Social Metrics".
 
 == Changelog ==
+= 1.5 =
+* Using the new Klout API to fetch the Klout score
+
 = 1.4 =
-* add option to display or not display Klout and PeerIndex scores. 
+* add option to display or not display Klout and PeerIndex scores.
 * default both to be displayed
 
 = 1.3 =
