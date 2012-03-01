@@ -146,6 +146,7 @@ function block_peerIndex($twitter_id,$instance) {
       if ($use_cache) {
       	$str=stripslashes(get_option($cache_str_name));
       	$json = json_decode (  $str, true );
+      	echo "\n<!-- using cache -->\n";
         }
        else {
        	$url="http://api.klout.com/1/klout.json?key=p7xvaapf9k764gbqdfx69dcx&users=".$twitter_id;
@@ -159,7 +160,6 @@ function block_peerIndex($twitter_id,$instance) {
         if (!$use_cache) {
         	 update_option($cache_ts_name,time());
            update_option($cache_str_name,addslashes($str));
-           echo "\n<!-- using cache -->\n";
            }
 
         echo "<a href=\"http://twitter.com".$twitter_id."\">";
