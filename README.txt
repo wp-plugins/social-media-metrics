@@ -3,7 +3,7 @@ Contributors: steve@sterndata.com
 Tags: Twitter, PeerIndex, Klout, Metrics, Statistics, Stats
 Requires at least: 2.8
 Tested up to: 3.3.1
-Stable tag: 1.7
+Stable tag: 1.9
 
  Displays scores from Klout and PeerIndex in a widget.
 
@@ -40,9 +40,16 @@ Yes!  Send me a note and I'll add it. Also, if you have suggestions on how to fo
 please let me know.
 
 == Screenshots ==
-1.  This is the plugin with the title set to "Social Metrics".
+1.  This is the plugin with the widget title set to "Social Metrics".
 
 == Changelog ==
+= 1.9 =
+* Added caching for Peerindex, too.  Cache set to 12 hours
+* updated screenshot
+
+= 1.8 =
+* cache klout scores so I don't go over the 10,000 per day limit on the api key. Cache set to 12 hours.
+
 = 1.7 =
 * change link to Klout to look like Peerindex link
 * add error checking for Klout and fail gracefully
