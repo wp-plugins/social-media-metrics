@@ -4,11 +4,11 @@ Plugin Name: Social Media Metrics
 Plugin URI: http://wordpress.org/extend/plugins/social-media-metrics/
 Description: Displays scores from <a href="http://klout.com">Klout<a> and <a href="http://peerindex.net">PeerIndex<a/> in widget.
 Author: Steven Stern
-Version: 1.8
+Version: 1.9
 Author URI: http://mywordpress.sterndata.com/
 */
 
-define ("SMM_VERSION","1.8");
+define ("SMM_VERSION","1.9");
 
 /*  Copyright 2011 Steven D. Stern  (email : steve@sterndata.com)
 
@@ -146,7 +146,7 @@ function block_peerIndex($twitter_id,$instance) {
       if ($use_cache) {
       	$str=stripslashes(get_option($cache_str_name));
       	$json = json_decode (  $str, true );
-      	echo "\n<!-- using cache -->\n";
+      	echo "\n<!-- using cache ".$klout_cache_ts." -->\n";
         }
        else {
        	$url="http://api.klout.com/1/klout.json?key=p7xvaapf9k764gbqdfx69dcx&users=".$twitter_id;
@@ -188,19 +188,47 @@ function block_peerIndex($twitter_id,$instance) {
     }
 
     if ($instance['pi_yes']) {
-      // PeerIndex score
-      $url = "http://api.peerindex.net/1/profile/show.json?id=".$twitter_id."&api_key=1f38f3ddfd21f6936e1449c703eebd62";
 
-      $str = @file_get_contents($url);
-      if ($str) {
-        $json = json_decode (  $str, true );
-        if (isset($json['error'])) {
-    	    echo "PeerIndex API Error: " ,$json['error'].".\n";
-    	    echo "<br>Visit my <a href='http://peerindex.net/".$twitter_id."'>PeerIndex profile</a>";
-    	    return false;
+    	// check if there's a cached value
+      $use_cache=false;
+      $cache_ts_name="smm_pi_".$twitter_id."_ts";
+      $cache_str_name="smm_pi_".$twitter_id."_str";
+      $pi_cache_ts = get_option($cache_ts_name);
+      if ($pi_cache_ts) {
+         // is the timesmap less than 12 hours?
+         $time_diff=time()- $pi_cache_ts;
+         if ($time_diff < 43200) $use_cache=true;
+         }
+        else {
+       	 $deprecated = ' ';
+         $autoload = 'no';
+         add_option( $cache_ts_name, 0, $deprecated, $autoload );
+         add_option( $cache_str_name,"",$deprecated, $autoload  );
+         }
+    	if ($use_cache) {
+      	$str=stripslashes(get_option($cache_str_name));
+      	$json = json_decode (  $str, true );
+      	echo "\n<!-- using cache ".$pi_cache_ts." -->\n";
+        }
+       else {
+        $url = "http://api.peerindex.net/1/profile/show.json?id=".$twitter_id."&api_key=1f38f3ddfd21f6936e1449c703eebd62";
+        $str = @file_get_contents($url);
+        if ($str) {
+          $json = json_decode (  $str, true );
+          if (isset($json['error'])) {
+    	      echo "PeerIndex API Error: " ,$json['error'].".\n";
+    	      echo "<br>Visit my <a href='http://peerindex.net/".$twitter_id."'>PeerIndex profile</a>";
+    	      return false;
+    	      }
     	    }
+    	  }
 
         if (strlen($json['peerindex'])!=0) {
+        	// cache the current scores if fetched
+          if (!$use_cache) {
+        	 update_option($cache_ts_name,time());
+           update_option($cache_str_name,addslashes($str));
+           }
           echo "<div style=\"text-align:center;\">";
           echo  "<br>";
           if (strlen($my_name != "")) {
@@ -220,11 +248,10 @@ function block_peerIndex($twitter_id,$instance) {
           echo "</div>\n";
          return true;
         }
-    }
-    else {
+       else {
       // failed to contact PeerIndex -- do nothing
          echo "<!-- PeerIndex error: ".$str." -->\n";
          return false;
        }
+      }
     }
-  }
