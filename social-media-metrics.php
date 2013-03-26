@@ -150,7 +150,7 @@ function block_peerIndex($twitter_id,$instance) {
         }
        else {
        	$url="http://api.klout.com/1/klout.json?key=p7xvaapf9k764gbqdfx69dcx&users=".$twitter_id;
-        $str = @file_get_contents($url);
+        $str = file_get_contents($url);
         $json = json_decode (  $str, true );
         }
 
