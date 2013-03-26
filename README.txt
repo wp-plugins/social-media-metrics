@@ -3,9 +3,11 @@ Contributors: steve@sterndata.com
 Tags: Twitter, PeerIndex, Klout, Metrics, Statistics, Stats
 Requires at least: 2.8
 Tested up to: 3.3.1
-Stable tag: 1.9
+Stable tag: 1.9.1
 
-Displays scores from Klout and PeerIndex in a widget. Do not download. Effective April 1, 2013 both Klout and Peerindex have changed their APIs.  As a result, this plugin will not work.  The plugin is left here in case anyone wants the code to build something that works with the new APIs.
+Displays scores from Klout and PeerIndex in a widget. 
+
+Do not download. Effective April 1, 2013 both Klout and Peerindex have changed their APIs.  As a result, this plugin will not work.  The plugin is left here in case anyone wants the code to build something that works with the new APIs.
 
 == Description ==
 Do not download. Effective April 1, 2013 both Klout and Peerindex have changed their APIs.  As a result, this plugin will not work.  The plugin is left here in case anyone wants the code to build something that works with the new APIs.
