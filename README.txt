@@ -46,6 +46,10 @@ please let me know.
 1.  This is the plugin with the widget title set to "Social Metrics".
 
 == Changelog ==
+= 1.9.1 =
+Do not download. Effective April 1, 2013 both Klout and Peerindex have changed their APIs.  As a result, this plugin will not work.  The plugin is left here in case anyone wants the code to build something that works with the new APIs.
+
+
 = 1.9 =
 * Added caching for Peerindex, too.  Cache set to 12 hours
 * updated screenshot
